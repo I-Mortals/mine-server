@@ -1,6 +1,6 @@
 import {AppService, TestService} from "./service";
 import {AppController} from "./app";
-import {Modules} from "../../decorator";
+import {Modules} from "../../index";
 
 @Modules({
     controller: AppController,

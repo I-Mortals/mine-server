@@ -1,5 +1,5 @@
 
-import {Controller, Get, Upload} from "../../decorator"
+import {Controller, Get, Upload} from "../../index";
 
 import multer from "multer";
 import {Request, Response} from "express";

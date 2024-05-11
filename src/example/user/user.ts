@@ -1,4 +1,4 @@
-import {Controller, Get} from "../../decorator";
+import {Controller, Get} from "../../index";
 import {UserService} from "./service";
 import {AppService} from "../app/service";
 import {Request, Response} from "express";

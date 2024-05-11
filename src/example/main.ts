@@ -1,7 +1,6 @@
-import { FactoryInstance } from "../../"
+import { FactoryInstance } from "../index"
 import responseHeader from "./Header/header";
 import AppRouter from "./router";
-
 
 const port = 8080;
 async function Applition() {

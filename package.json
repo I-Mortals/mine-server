@@ -1,6 +1,6 @@
 {
   "name": "mine-server",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "MineServer is a Node.js web application framework that provides IoC and DI functions",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

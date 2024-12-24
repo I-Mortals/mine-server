@@ -10,8 +10,8 @@ export class User {
     @Get("get")
     public async getUser(req: Request, res: Response,) {
         res.send({
-            user: this.userService.getMysql(),
-            data: this.appService.getData()
+            user: await this.userService.getMysql(),
+            data: await this.appService.getData()
         })
     }
 

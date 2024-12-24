@@ -17,5 +17,6 @@ export interface ForwardReference<T = any> {
 
 export interface InjectRouter{
     rootPath?:string
+    debug?:boolean
     nodes: Array<Provider>
 }

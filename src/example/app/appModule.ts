@@ -1,9 +1,9 @@
-import {AppService, TestService} from "./service";
+import {AppService} from "./service";
 import {AppController} from "./app";
 import {Modules} from "../../index";
 
 @Modules({
     controller: AppController,
-    providers: [TestService, AppService],
+    providers: [AppService],
 })
 export default class AppModules { }

@@ -14,7 +14,7 @@ import {
 } from "./decorator";
 import {Config} from "./config"
 import {isConstructor, isFunction} from "./utlis"
-import express from "express"
+import express, { RequestHandler } from "express"
 import {Express} from "express"
 import multer, {Multer} from 'multer'
 import {Path} from "./tools";
@@ -111,9 +111,18 @@ export class Factory {
 
     }
 
-    // 创建各模块
-    public async create(routerCls) {
+    // create modules
+    public async create(routerCls, middlewares: RequestHandler[] = [],callback?: (server: Express) => void) {
         console.log("The service is initial...");
+
+        // middleware init
+        middlewares.forEach(middleware => {
+            this.server.use(middleware);
+        });
+
+        // callback init
+        if(callback) callback(this.server)
+
         const rootModules: InjectRouter = Reflect.getMetadata(Router_Metadata, routerCls)
         console.log("InjectRouter:",rootModules)
         this.rootModules(rootModules)

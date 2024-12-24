@@ -30,6 +30,7 @@ export class Factory {
     server: Express;
 
     private rootPath: string = "/api"
+    private debug: boolean = true
 
     constructor() {
         this.server = express()
@@ -39,7 +40,7 @@ export class Factory {
     private async initialize(modulesCls) {
 
         const appModules: ModuleMetadata = Reflect.getMetadata(Modules_Metadata, modulesCls)
-        console.log("Module",appModules);
+        this.log("Module",appModules);
 
         this.modules.push(appModules)
 
@@ -53,6 +54,7 @@ export class Factory {
 
         // get providers service
         const providersMap = paramtypes.map(item => {
+            
             if (appModules.providers.length >= 1) {
                 const cls_service = appModules.providers.find(cls_service => cls_service == item);
                 if (cls_service) {
@@ -95,9 +97,7 @@ export class Factory {
                 if (method == Methods.Upload) {
                     const uploadOp: multer.Options = Reflect.getMetadata(Upload_Metadata, clsInstance, methodName)
                     const uploadKey = multer(uploadOp)
-                    this.server.post(routeData.path, uploadKey.single("file"), (req, res) => {
-                        fn(req, res, uploadKey)
-                    })
+                    this.server.post(routeData.path, uploadKey.single("file"), fn.bind(clsInstance))
                 } else {
                     this.server[method.toLocaleLowerCase()](routeData.path, fn.bind(clsInstance))
                 }
@@ -124,17 +124,28 @@ export class Factory {
         if(callback) callback(this.server)
 
         const rootModules: InjectRouter = Reflect.getMetadata(Router_Metadata, routerCls)
-        console.log("InjectRouter:",rootModules)
-        this.rootModules(rootModules)
 
-        console.log("controllers", this.controllerInstance);
-        console.log("serviceInstance", this.serviceInstance);
+        this.setDebug(rootModules.debug)
+
+        this.rootModules(rootModules)
+        
+        this.log("InjectRouter:",rootModules)
+        this.log("controllers", this.controllerInstance);
+        this.log("serviceInstance", this.serviceInstance);
 
         return this
     }
 
     private setGlobalPrefix(path: string) {
         this.rootPath = Path(path)
+    }
+    private setDebug(debug: boolean) {
+        this.debug = debug
+    }
+    private log(message?: any, ...optionalParams: any[]){
+        if(this.debug){
+            console.log(message, ...optionalParams)
+        }
     }
 
     // Initialize the route
